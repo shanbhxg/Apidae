@@ -1,4 +1,4 @@
-from beecolpy import abc
+from beecolpy.beecolpy import abc
 
 count = 0
 def func(x):
