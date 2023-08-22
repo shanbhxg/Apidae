@@ -5,7 +5,7 @@ def func(x):
 	global count
 	count +=1
 	print("x:",x)
-	return x[0] + 500
+	return x[0] + 100
 
 abc_obj = abc(func, [(-10,10)], iterations=5, min_max='max', log_agents = True) #Load data
 abc_obj.fit() #Execute the algorithm
