@@ -125,7 +125,7 @@ class abc:
 
     '''
     """
-    cosine_simlarity_func( user_skills, [job descriptions] )
+    cosine_simlarity_func( user_skills_tfidf, JD_tfidf selected at random )
     """
     def __init__(self,
                  function, # cosine sim
@@ -143,7 +143,7 @@ class abc:
 
         #self.boundaries = boundaries
         self.user_profile = user_profile
-        self.jd_list = jd_list #list of tuples
+        self.jd_list = jd_list #list of JDs
         self.dimensions = 2 #earlier, len of boundaries
 
         self.min_max_selector = min_max
@@ -188,7 +188,7 @@ class abc:
 
         self.agents = []
         if self.log_agents:
-            self.agents.append([food.position for food in self.foods])
+            self.agents.append([food.jd_picked for food in self.foods])
 
 
     def fit(self):
@@ -202,7 +202,7 @@ class abc:
         if self.reset_agents:
             self.agents = []
             if self.log_agents:
-                self.agents.append([food.position for food in self.foods])
+                self.agents.append([food.jd_picked for food in self.foods])
             self.reset_agents = False
 
         for _ in range(self.max_iterations):
@@ -225,9 +225,9 @@ class abc:
             #Update iteration status
             self.iteration_status += 1
             if self.log_agents:
-                self.agents.append([food.position for food in self.foods])
+                self.agents.append([food.jd_picked for food in self.foods])
 
-        return self.best_food_source.position
+        return self.best_food_source.jd_picked
 
 
     def get_agents(self, reset_agents: bool=False):
@@ -252,7 +252,7 @@ class abc:
 
         '''
         assert (self.iteration_status > 0), 'fit() not executed yet!'
-        return self.best_food_source.position
+        return self.best_food_source.jd_picked
 
 
     def get_status(self):
@@ -276,9 +276,13 @@ class _FoodSource:
         self.abc = abc
         self.engine = engine
         self.trial_counter = 0
-        self.position = []
+        self.jd_list = self.abc.jd_list
+
         #self.position = [rng.uniform(*self.abc.boundaries[i]) for i in range(len(self.abc.boundaries))]
-        self.fit = self.engine.calculate_fit(self.position)
+        self.jd_picked = rng.choice(self.jd_list) #randomly select a jd from the list
+
+        self.fit = self.engine.calculate_fit(self.abc.user_profile, self.jd_picked)
+        #self.fit = self.engine.calculate_fit(self.position)
 
 
     def evaluate_neighbor(self, partner_position):
@@ -335,9 +339,12 @@ class _ABC_engine:
         # return actual_fit/np.sum([food.fit for food in self.abc.foods])
 
 
-    def calculate_fit(self, evaluated_position):
+    def calculate_fit(self, jd_picked):
         #eq. (2) [2] (Convert "cost function" to "fit function")
-        cost = self.abc.cost_function(evaluated_position)
+        # cost = self.abc.cost_function(evaluated_position) #cost_func is cosine sim
+
+        cost = self.abc.cost_function(self.abc.user_profile, jd_picked) 
+
         if (self.abc.min_max_selector == 'min'): #Minimize function
             fit_value = (1 + np.abs(cost)) if (cost < 0) else (1/(1 + cost))
         else: #Maximize function
