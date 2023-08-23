@@ -139,8 +139,7 @@ class abc:
 
                  min_max: str='max',
                  nan_protection: bool=True,
-                 log_agents: bool=False,
-                 seed: int=None):
+                 log_agents: bool=False):
 
         #self.boundaries = boundaries
         self.user_profile = user_profile
@@ -152,7 +151,6 @@ class abc:
         self.nan_protection = nan_protection
         self.log_agents = log_agents
         self.reset_agents = False
-        self.seed = seed
 
         self.max_iterations = int(max([iterations, 1]))
 
@@ -175,9 +173,6 @@ class abc:
         self.scout_status = 0
         self.iteration_status = 0
         self.nan_status = 0
-
-        if (self.seed is not None):
-            rng.seed(self.seed)
 
         self.foods = [None] * self.employed_onlookers_count
         for i in range(len(self.foods)):
@@ -203,8 +198,6 @@ class abc:
         Obs.: Returns a list with values found as minimum/maximum 
         coordinate.
         '''
-        if (self.seed is not None):
-            rng.seed(self.seed)
 
         if self.reset_agents:
             self.agents = []
@@ -274,12 +267,17 @@ class abc:
                self.nan_status
 
 class _FoodSource:
+    """
+    position is our tf-idf, and the fitness will be similarity score
+    I think the array order doesnt matter
+    """
     def __init__(self, abc, engine):
         #When a food source is initialized, randomize a position inside boundaries and calculate the "fit"
         self.abc = abc
         self.engine = engine
         self.trial_counter = 0
-        self.position = [rng.uniform(*self.abc.boundaries[i]) for i in range(len(self.abc.boundaries))]
+        self.position = []
+        #self.position = [rng.uniform(*self.abc.boundaries[i]) for i in range(len(self.abc.boundaries))]
         self.fit = self.engine.calculate_fit(self.position)
 
 

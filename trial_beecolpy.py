@@ -1,13 +1,6 @@
 from beecolpy.beecolpy import abc
 from sklearn.metrics.pairwise import cosine_similarity
 
-# count = 0
-# def func(x):
-# 	global count
-# 	count +=1
-# 	print("x:",x)
-# 	return x[0] + 100
-
 def cosine_sim(user_tfidf, job_tfidf):
     # cos_similarity_tfidf = map(lambda x: cosine_similarity(user_tfidf, x),tfidf_jobid)
 	csim = cosine_similarity(user_tfidf, job_tfidf)
