@@ -1,16 +1,22 @@
 from beecolpy.beecolpy import abc
+from sklearn.metrics.pairwise import cosine_similarity
 
-count = 0
-def func(x):
-	global count
-	count +=1
-	print("x:",x)
-	return x[0] + 100
+# count = 0
+# def func(x):
+# 	global count
+# 	count +=1
+# 	print("x:",x)
+# 	return x[0] + 100
 
-abc_obj = abc(func, [(-10,10)], iterations=5, min_max='max', log_agents = True) #Load data
+def cosine_sim(user_tfidf, job_tfidf):
+    # cos_similarity_tfidf = map(lambda x: cosine_similarity(user_tfidf, x),tfidf_jobid)
+	csim = cosine_similarity(user_tfidf, job_tfidf)
+	return csim
+
+abc_obj = abc(cosine_sim, user_profile = , jd_list = , iterations=5, min_max='max', log_agents = True) #Load data
 abc_obj.fit() #Execute the algorithm
 
-print("total func calls:",count)
+print("total func calls:",cosine_sim)
 #If you want to get the obtained solution after execute the fit() method:
 solution = abc_obj.get_solution()
 print("solution:",solution)
