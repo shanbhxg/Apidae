@@ -124,23 +124,28 @@ class abc:
 
 
     '''
+    """
+    cosine_simlarity_func( user_skills, [job descriptions] )
+    """
     def __init__(self,
-                 function,
+                 function, # cosine sim
                  #boundaries,
-                 datapoints,
-                 dimensions,
+                 user_profile,
+                 jd_list,
 
                  colony_size: int=40,
                  scouts: float=0.5,
                  iterations: int=50,
-                 min_max: str='min',
+
+                 min_max: str='max',
                  nan_protection: bool=True,
                  log_agents: bool=False,
                  seed: int=None):
 
         #self.boundaries = boundaries
-        self.datapoints = datapoints #list of tuples
-        self.dimensions = dimensions #earlier, len of boundaries
+        self.user_profile = user_profile
+        self.jd_list = jd_list #list of tuples
+        self.dimensions = 2 #earlier, len of boundaries
 
         self.min_max_selector = min_max
         self.cost_function = function
