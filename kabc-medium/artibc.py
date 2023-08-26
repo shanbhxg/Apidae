@@ -1,6 +1,8 @@
 from onlooker import OnLookerBee
 from employee import EmployeeBee
-from 
+from artifical_bee import ArtificialBee
+from copy import deepcopy
+import numpy as np
 
 class ABC(object):
 

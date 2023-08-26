@@ -1,4 +1,6 @@
 import numpy as np
+from artifical_bee import ArtificialBee
+
 class OnLookerBee(ArtificialBee):
 
     def onlook(self, best_food_sources, max_trials):

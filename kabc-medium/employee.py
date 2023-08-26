@@ -1,4 +1,5 @@
 import numpy as np
+from artifical_bee import ArtificialBee
 class EmployeeBee(ArtificialBee):
 
     def explore(self, max_trials):
