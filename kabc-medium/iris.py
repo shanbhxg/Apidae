@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-from abc import ABC
+from artibc import ABC
 import numpy as np
 from objective_function import SumOfSquaredErrors
 
