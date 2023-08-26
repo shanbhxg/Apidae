@@ -25,7 +25,7 @@ for idx in range(k):
     
     clusters[idx] = cluster
      
-clusters
+print(clusters)
 
 
 plt.scatter(X[:,0],X[:,1])
