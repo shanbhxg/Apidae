@@ -1,3 +1,7 @@
+from six import add_metaclass
+from abc import ABCMeta
+import numpy as np
+
 @add_metaclass(ABCMeta)
 class PartitionalClusteringObjectiveFunction(ObjectiveFunction):
 
