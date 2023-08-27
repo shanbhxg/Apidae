@@ -1,7 +1,7 @@
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-data = pd.read_csv('job_data.csv') 
+data = pd.read_csv('data/job_data.csv') 
 data.dropna(subset=['text'], inplace=True)
 
 job_descriptions = data['text']
