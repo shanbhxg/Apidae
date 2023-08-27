@@ -163,7 +163,7 @@ class ABC(object):
 
             self.__update_optimal_solution()
             self.__update_optimality_tracking()
-            # print("iter: {} = cost: {}"
-                #   .format(itr, "%04.03e" % self.optimal_solution.fitness))
-            print("WORKKKKKKKKK")
+            print("iter: {} = cost: {}"
+                  .format(itr, "%04.03e" % self.optimal_solution.fitness))
+            # print("WORKKKKKKKKK")
             # print("iter",itr ,"cost", self.optimal_solution.fitness)

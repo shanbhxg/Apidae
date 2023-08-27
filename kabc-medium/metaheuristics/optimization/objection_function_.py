@@ -49,7 +49,8 @@ class PartitionalClusteringObjectiveFunction(ObjectiveFunction):
         self.data = data
 
     def decode(self, x):
-        centroids = x.reshape(self.n_clusters, self.data.shape[1])
+        centroids = x.reshape(self.n_clusters, 1)
+        # centroids = x.reshape(self.n_clusters, self.data.shape[1])
         self.centroids = dict(enumerate(centroids))
 
     @abstractmethod
@@ -90,6 +91,8 @@ class SumOfSquaredErrors(PartitionalClusteringObjectiveFunction):
         self.name = 'SumOfSquaredErrors'
 
     def evaluate(self, x):
+        print("x is:", x)
+        print(type(x))
         self.decode(x)
 
         clusters = {key: [] for key in self.centroids.keys()}
