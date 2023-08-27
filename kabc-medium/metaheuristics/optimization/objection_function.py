@@ -106,43 +106,6 @@ class SumOfSquaredErrors(PartitionalClusteringObjectiveFunction):
         return sum_of_squared_errors
 
 
-class DeepNeuralNetworkObjectiveFunction(ObjectiveFunction):
-
-    def __init__(self, dim):
-        super(DeepNeuralNetworkObjectiveFunction, self).__init__('DeepNeuralNetworkObjectiveFunction', dim, 0, 2)
-        digits = load_digits()
-        self.data = digits['data']
-        self.target = digits['target']
-
-    def evaluate(self, x):
-        model = Sequential()
-        model.add(layers.Dense(12, input_dim=self.data.shape[1], activation='relu'))
-        print('evaluating ...')
-        for idx, layer in enumerate(np.round(x)):
-            if layer == 0:
-                model.add(layers.LSTM(150, return_sequences=True))
-                print('adding layer LSTM ...')
-            elif layer == 1:
-                model.add(layers.MaxPooling2D())
-                print('adding layer MaxPooling ...')
-            elif layer == 2:
-                model.add(layers.Conv2D(32, kernel_size=(3, 3), activation='relu'))
-                print('adding layer Conv2D ...')
-        model.add(layers.Dense(1, activation='softmax'))
-
-        model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
-        train_x, test_x, train_y, test_y = train_test_split(self.data, self.target, stratify=self.target)
-        results = model.fit(train_x, train_y, epochs=2, batch_size=500, validation_data=(test_x, test_y))
-        return -1 * results.history["val_acc"]
-
-
-class Sphere(ObjectiveFunction):
-
-    def __init__(self, dim):
-        super(Sphere, self).__init__('Sphere', dim, -100.0, 100.0)
-
-    def evaluate(self, x):
-        return sum(np.power(x, 2))
 
 
 class Rosenbrock(ObjectiveFunction):
